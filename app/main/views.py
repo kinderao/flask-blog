@@ -30,7 +30,8 @@ def user(username):
     user_in_db = User.query.filter_by(username=username).first()
     if user_in_db is None:
         abort(404)
-    return render_template('user.html', user=user_in_db)
+    posts = user_in_db.posts.order_by(Post.timestamp.desc()).all()
+    return render_template('user.html', user=user_in_db, posts=posts)
 
 
 @main.route('/edit-profile', methods=['GET', 'POST'])
